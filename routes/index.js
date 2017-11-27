@@ -5,7 +5,8 @@ const express = require("express"),
   root = process.cwd() + "/",
   fs = require("fs"),
   config = require(root + "config.json"),
-  deviceList = require(root + "assets/devices.json")
+  deviceList = require(root + "assets/devices.json"),
+  myData = require(root + "assets/myStatus.json")
 
 /* GET home page. */
 router.get("/", (req, res, next) => {
@@ -88,30 +89,30 @@ function createHolidayRequest(payload) {
   let dateFrom = convertDate(dates[0]);
   let dateTo = convertDate(dates[1]);
   let response = {
-      mrkdwn: true,
-      text: "Here your *holiday request*.\nAfter booking your request will be submited to your line manager for approval.",
-      attachments: [
+      "mrkdwn": "true",
+      "text": "Here your *holiday request*.\nAfter booking your request will be submited to your line manager `" + myData.lineManager.name + "` for approval.\nYou have: *" + myData.holiday.booked + "* days booked, *" + myData.holiday.pending + "* days pending and *" + myData.holiday.available + "* days available",
+      "attachments": [
         {
-          color: "#000000",
-          mrkdwn_in: ["fields"],
-          callback_id: "holiday_request",
-          fields: [
+          "color": "#000000",
+          "mrkdwn_in": ["fields"],
+          "callback_id": "holiday_request",
+          "fields": [
             {
-              title: "From",
-              short: true
+              "title": "From",
+              "short": true
             },
             {
-              title: "To",
-              short: true
+              "title": "To",
+              "short": true
             }
           ],
-          actions: [
+          "actions": [
             {
-              name: "send_request",
-              text: "Submit the request",
-              type: "button",
-              style: "primary",
-              value: dateFrom + ";" + dateTo
+              "name": "send_request",
+              "text": "Submit the request",
+              "type": "button",
+              "style": "primary",
+              "value": dateFrom + ";" + dateTo
             }
           ]
         }
