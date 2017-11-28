@@ -51,8 +51,10 @@ router.post("/buttons", (req, res, next) => {
 
     switch (action) {
       case "send_request":
-        console.log(payload);
-        resp.text = `The request is sent`;
+        let payLoadStr = JSON.parse(JSON.stringify(payload));
+        let dates = payLoadStr.actions[0].value;
+        let datesAr = dates.split(";");
+        resp.text = `The request for holiday from *`+ unconvertDate(datesAr[0]) +`* to *`+ unconvertDate(datesAr[1]) +`* is sent`;
         resp.delete_original = true;
         break;
       default:
